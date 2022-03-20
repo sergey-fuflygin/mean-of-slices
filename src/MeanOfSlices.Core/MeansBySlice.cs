@@ -7,23 +7,23 @@ namespace MeanOfSlices.Core
     {
         private readonly int[] _array;
         private int ArrayLength => _array.Length;
-        private readonly Dictionary<ArraySlice, double> _meansBySlice;
+        private readonly Dictionary<Slice, double> _meansBySlice;
         
         public MeansBySlice(int[] array)
         {
             _array = array ?? throw new ArgumentNullException(nameof(array));
-            _meansBySlice = new Dictionary<ArraySlice, double>(ArrayLength * (ArrayLength + 1) / 2);
+            _meansBySlice = new Dictionary<Slice, double>(ArrayLength * (ArrayLength + 1) / 2);
             PrecalculateSliceMeans();
         }
         
-        public double this[ArraySlice slice]
+        public double this[Slice slice]
         {
             get
             {
-                // if (slice.Start >= ArrayLength || slice.End >= ArrayLength)
-                // {
-                //     throw new IndexOutOfRangeException()
-                // }
+                if (slice.Start >= ArrayLength || slice.End >= ArrayLength)
+                {
+                    throw new IndexOutOfRangeException("Specified slice does not belong to the array.");
+                }
             
                 return _meansBySlice[slice];
             }
@@ -43,7 +43,7 @@ namespace MeanOfSlices.Core
                     }
 
                     var avg = (double)sum / (j - i + 1);
-                    _meansBySlice.Add(new ArraySlice(i, j), avg);
+                    _meansBySlice.Add(new Slice(i, j), avg);
                 }
             }
         }

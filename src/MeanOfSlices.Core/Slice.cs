@@ -2,12 +2,12 @@
 
 namespace MeanOfSlices.Core
 {
-    public struct ArraySlice
+    public struct Slice
     {
         public int Start { get; }
         public int End { get; }
 
-        public ArraySlice(int start, int end)
+        public Slice(int start, int end)
         {
             if (start < 0 || end < 0 || end < start)
             {

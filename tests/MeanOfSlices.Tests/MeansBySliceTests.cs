@@ -21,18 +21,18 @@ namespace MeanOfSlices.Tests
         }
         
         [TestMethod]
-        public void GetMean_Fails_When_Slice_Does_Not_Belong_To_Array()
+        [ExpectedException(typeof(IndexOutOfRangeException))]
+        public void Iterator_Fails_When_Slice_Does_Not_Belong_To_Array()
         {
             //Arrange
             var array = new[] { 1, 2, 3 };
             var meansBySlice = new MeansBySlice(array);
-            var slice = new ArraySlice(3, 3);
+            var slice = new Slice(3, 3);
 
             //Act
             var _ = meansBySlice[slice];
 
             //Assert
-
         }
     }
 }

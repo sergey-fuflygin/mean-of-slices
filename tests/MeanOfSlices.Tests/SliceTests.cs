@@ -5,7 +5,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace MeanOfSlices.Tests
 {
     [TestClass]
-    public class ArraySliceTests
+    public class SliceTests
     {
         [TestMethod]
         [DataTestMethod]
@@ -19,7 +19,7 @@ namespace MeanOfSlices.Tests
 
             //Act
             // ReSharper disable once ObjectCreationAsStatement
-            new ArraySlice(start, end);
+            new Slice(start, end);
 
             //Asse
         }
