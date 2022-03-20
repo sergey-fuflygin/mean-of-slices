@@ -1,6 +1,6 @@
 ﻿namespace MeanOfSlices
 {
-    public interface IMeansCalculator
+    public interface ISliceMeansCalculator
     {
         double GetMean(Slice slice);
     }

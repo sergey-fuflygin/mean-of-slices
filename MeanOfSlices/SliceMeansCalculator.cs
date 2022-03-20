@@ -2,13 +2,13 @@
 
 namespace MeanOfSlices
 {
-    public class MeansCalculator : IMeansCalculator
+    public class SliceMeansCalculator : ISliceMeansCalculator
     {
         private readonly int[] _array;
         private int ArrayLength => _array.Length;
         private readonly Dictionary<Slice, double> _sliceMeans;
         
-        public MeansCalculator(int[] array)
+        public SliceMeansCalculator(int[] array)
         {
             _array = array;
             _sliceMeans = new Dictionary<Slice, double>(ArrayLength * (ArrayLength + 1) / 2);

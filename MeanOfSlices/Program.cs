@@ -10,8 +10,8 @@ namespace MeanOfSlices
             // int[] arr = { 1, 2, 3, 4 };
             int[] arr = { 1, 1, 2, 3, 1, 4 };
 
-            var meansCalculator = new MeansCalculator(arr);
-            Console.WriteLine(meansCalculator.GetMean(new Slice(2, 3)));
+            var sliceMeansCalculator = new SliceMeansCalculator(arr);
+            Console.WriteLine(sliceMeansCalculator.GetMean(new Slice(2, 3)));
         }
         
         private static Dictionary<Slice, double> CalculateSliceMeans(int[] arr)
