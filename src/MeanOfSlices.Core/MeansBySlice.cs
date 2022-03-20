@@ -3,20 +3,31 @@ using System.Collections.Generic;
 
 namespace MeanOfSlices.Core
 {
-    public class IntArrayMeanOfSlicesCalculator : IMeanOfSlicesCalculator
+    public class MeansBySlice
     {
         private readonly int[] _array;
         private int ArrayLength => _array.Length;
         private readonly Dictionary<ArraySlice, double> _meansBySlice;
         
-        public IntArrayMeanOfSlicesCalculator(int[] array)
+        public MeansBySlice(int[] array)
         {
             _array = array ?? throw new ArgumentNullException(nameof(array));
             _meansBySlice = new Dictionary<ArraySlice, double>(ArrayLength * (ArrayLength + 1) / 2);
             PrecalculateSliceMeans();
         }
         
-        public double GetMean(ArraySlice slice) => _meansBySlice[slice];
+        public double this[ArraySlice slice]
+        {
+            get
+            {
+                // if (slice.Start >= ArrayLength || slice.End >= ArrayLength)
+                // {
+                //     throw new IndexOutOfRangeException()
+                // }
+            
+                return _meansBySlice[slice];
+            }
+        }
 
         private void PrecalculateSliceMeans()
         {

@@ -1,13 +1,11 @@
-﻿// ReSharper disable NotAccessedField.Local
-
-using System;
+﻿using System;
 
 namespace MeanOfSlices.Core
 {
     public struct ArraySlice
     {
-        private readonly int _start;
-        private readonly int _end;
+        public int Start { get; }
+        public int End { get; }
 
         public ArraySlice(int start, int end)
         {
@@ -16,8 +14,8 @@ namespace MeanOfSlices.Core
                 throw new ArgumentOutOfRangeException($"Both {nameof(start)} and {nameof(end)} must be non-negative and {nameof(end)} must be greater or equal to {nameof(start)}");
             }
             
-            _start = start;
-            _end = end;
+            Start = start;
+            End = end;
         }
     }
 }
