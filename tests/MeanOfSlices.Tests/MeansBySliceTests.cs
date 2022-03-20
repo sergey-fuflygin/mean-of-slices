@@ -34,5 +34,25 @@ namespace MeanOfSlices.Tests
 
             //Assert
         }
+        
+        [DataTestMethod]
+        [DataRow(new[] { 1 }, 0, 0, 1)]
+        [DataRow(new[] { 1, 2 }, 0, 1, 1.5)]
+        [DataRow(new[] { 1, 1, 2, 3, 1, 4 }, 2, 3, 2.5)]
+        [DataRow(new[] { 1, 1, 2, 3, 1, 4 }, 0, 0, 1)]
+        [DataRow(new[] { 1, 1, 2, 3, 1, 4 }, 5, 5, 4)]
+        [DataRow(new[] { 1, 1, 2, 3, 1, 4 }, 0, 5, 2)]
+        public void Indexer_Successfully_Returns_Correct_Mean(int[] array, int start, int end, double expectedMean)
+        {
+            //Arrange
+            var meansBySlice = new MeansBySlice(array);
+            var slice = new Slice(start, end);
+        
+            //Act
+            var actualMean = meansBySlice[slice];
+        
+            //Assert
+            Assert.AreEqual(expectedMean, actualMean);
+        }
     }
 }
