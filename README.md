@@ -39,8 +39,4 @@ In general, for an array of size n, there are n*(n+1)/2 non-empty subarrays.
 
 n = 4
 4*(4+1)/2 = 10
-
-We can run two nested loops, the outer loop picks starting element and inner loop considers all elements on right of the picked elements as ending element of subarray. 
-
-Complexity- O(n^3)
 ```

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace MeanOfSlices.Core
 {
@@ -7,13 +8,15 @@ namespace MeanOfSlices.Core
     {
         private readonly int[] _array;
         private int ArrayLength => _array.Length;
-        private readonly Dictionary<Slice, double> _meansBySlice;
+        private readonly Dictionary<Slice, double> _meansBySlice; //cache for faster access
+
+        private const int CacheSize = 50000000;
+        private const int CacheThreshold = 1000000;
         
         public MeansBySlice(int[] array)
         {
             _array = array ?? throw new ArgumentNullException(nameof(array));
-            _meansBySlice = new Dictionary<Slice, double>(ArrayLength * (ArrayLength + 1) / 2);
-            PrecalculateSliceMeans();
+            _meansBySlice = new Dictionary<Slice, double>(CacheSize);
         }
         
         public double this[Slice slice]
@@ -24,28 +27,38 @@ namespace MeanOfSlices.Core
                 {
                     throw new IndexOutOfRangeException("Specified slice does not belong to the array.");
                 }
-            
-                return _meansBySlice[slice];
+
+                return GetMean(slice);
             }
         }
 
-        private void PrecalculateSliceMeans()
+        private double GetMean(Slice slice)
         {
-            for (var i = 0; i < ArrayLength; i++)
+            //Verify and return if we already calculated a mean for the slice
+            if (_meansBySlice.ContainsKey(slice))
             {
-                for (var j = i; j < ArrayLength; j++)
-                {
-                    var sum = 0;
-                    
-                    for (var k = i; k <= j; k++)
-                    {
-                        sum += _array[k];
-                    }
-
-                    var avg = (double)sum / (j - i + 1);
-                    _meansBySlice.Add(new Slice(i, j), avg);
-                }
+                return _meansBySlice[slice];
             }
+
+            //Otherwise calculate it
+            var count = slice.End - slice.Start + 1;
+            var avg = 0.0;
+                
+            for (var k = slice.Start; k <= slice.End; k++)
+            {
+                avg += (double)_array[k] / count;
+            }
+
+            //Clear the cache if it is close to the limit
+            if (_meansBySlice.Count > CacheSize - CacheThreshold)
+            {
+                _meansBySlice.Clear();
+            }
+            
+            //And add to the cache
+            _meansBySlice.Add(slice, avg);
+            
+            return avg;
         }
     }
 }
